@@ -18,7 +18,7 @@ function BarChart({ data }) {
 
       const y1 = d3
         .scaleLinear()
-        .domain([0, d3.max(data, (d) => d.kw)])
+        .domain([0, d3.max(data, (d) => d.w)])
         .rangeRound([height - margin.bottom, margin.top]);
 
       const xAxis = (g) =>
@@ -36,7 +36,7 @@ function BarChart({ data }) {
           g
           .append("text")
           .attr("x", width/2)
-          .attr("y", margin.bottom - 75)
+          .attr("y", margin.bottom - 70)
           .attr("fill", "white")
           .attr("text-anchor", "start")
           .text("year")
@@ -51,20 +51,20 @@ function BarChart({ data }) {
           .call((g) =>
             g
               .append("text")
-              .attr("x", -margin.left)
+              .attr("x", -margin.left + 10)
               .attr("y", 10)
               .attr("fill", "white")
               .attr("text-anchor", "start")
-              .text("kilowatts")
+              .text("watts")
           );
 
       const outputBox = (g) =>
         g
           .append("text")
-          .text("Click to see info")
+          .text("Click bar to see info")
           .attr("fill", "white")
           .attr("x", width/2-50)
-          .attr("y", 450)
+          .attr("y", 460)
           .style("text-anchor", "start")
           .style("font-size", "20px")
 
@@ -81,16 +81,15 @@ function BarChart({ data }) {
         .attr("class", "bar")
         .attr("x", (d) => x(d.year))
         .attr("width", x.bandwidth())
-        .attr("y", (d) => y1(d.kw))
-        .attr("height", (d) => y1(0) - y1(d.kw))
+        .attr("y", (d) => y1(d.w))
+        .attr("height", (d) => y1(0) - y1(d.w))
         .style("filter", (d) => "brightness(" +  ((d.temp - 4)/10) + ")")
-        .attr("id", (d) => "Energy Consumption: " + d.kw + "kw;    Mean Temperature: " + d.temp + "°C")
+        .attr("id", (d) => "Energy Consumption: " + d.w + "W;    Mean Temperature: " + d.temp + "°C")
         .on("click", function() {
           var info = this.id
-          console.log(info)
           svg.select(".output").select("text").remove()
           svg.select(".output").append("text").text(info).attr("fill", "white").attr("x", width/2-170)
-            .attr("y", 450).style("text-anchor", "start").style("font-size", "14px")
+            .attr("y", 460).style("text-anchor", "start").style("font-size", "14px")
         })
       
     },
