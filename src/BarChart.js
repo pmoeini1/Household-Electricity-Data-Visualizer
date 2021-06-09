@@ -84,7 +84,7 @@ function BarChart({ data }) {
         .attr("y", (d) => y1(d.kw))
         .attr("height", (d) => y1(0) - y1(d.kw))
         .style("filter", (d) => "brightness(" +  ((d.temp - 4)/10) + ")")
-        .attr("id", (d) => "Energy Consumption: " + d.kw + "kw;  Mean Temperature: " + d.temp + "°C")
+        .attr("id", (d) => "Energy Consumption: " + d.kw + "kw;    Mean Temperature: " + d.temp + "°C")
         .on("click", function() {
           var info = this.id
           console.log(info)
