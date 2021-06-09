@@ -61,9 +61,9 @@ function BarChart({ data }) {
       const outputBox = (g) =>
         g
           .append("text")
-          .text("Click bar to see info")
+          .text("Hover over bar to see info")
           .attr("fill", "white")
-          .attr("x", width/2-50)
+          .attr("x", width/2-100)
           .attr("y", 460)
           .style("text-anchor", "start")
           .style("font-size", "20px")
@@ -79,17 +79,29 @@ function BarChart({ data }) {
         .data(data)
         .join("rect")
         .attr("class", "bar")
+        .on("mouseout", function() {
+          d3.select(this)
+          .transition()
+          .duration(400)
+          .attr('width', x.bandwidth())
+          .style("fill", "lightgrey")
+        })
         .attr("x", (d) => x(d.year))
         .attr("width", x.bandwidth())
         .attr("y", (d) => y1(d.w))
         .attr("height", (d) => y1(0) - y1(d.w))
-        .style("filter", (d) => "brightness(" +  ((d.temp - 4)/10) + ")")
+        .style("filter", (d) => "brightness(" +  ((d.temp - 4)/6) + ")")
         .attr("id", (d) => "Energy Consumption: " + d.w + "W;    Mean Temperature: " + d.temp + "°C")
-        .on("click", function() {
+        .on("mouseover", function() {
           var info = this.id
           svg.select(".output").select("text").remove()
           svg.select(".output").append("text").text(info).attr("fill", "white").attr("x", width/2-170)
             .attr("y", 460).style("text-anchor", "start").style("font-size", "14px")
+          d3.select(this)
+          .transition()
+          .duration(400)
+          .attr('width', x.bandwidth() + 5)
+          .style("fill", "blanchedalmond")
         })
       
     },
